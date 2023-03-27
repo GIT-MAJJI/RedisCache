@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form>
+    <div class="form-group">
+        <input type="text" class="form-control" id="formGroupId" placeholder="Enter Id">
+    </div>
+    <div class="row">
+        <div class="col">
+            <button id="azureRedis" type="button" class="form-control btn btn-primary mb-2">Azure Redis</button>
+        </div>
+        <div class="col">
+            <button id="azureSQL" type="button" class="form-control btn btn-primary mb-2">Azure SQL</button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-6" id="redisCustomer">
+    </div>
+    <div class="col-md-6" id="sqlCustomer">
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+        asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+        asp-fallback-test="window.jQuery"
+        crossorigin="anonymous"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+</script>
+<script type="text/javascript">
+
+    $(document).ready(
+        function () {
+            var url = '@Url.Action("Details", "Customer")';
+            $('#azureRedis').click(function ()
+            {
+                var keyWord = $('#formGroupId').val();
+                $('#redisCustomer').load(url, { id: keyWord, fromRedis: true });
+            })
+
+            $('#azureSQL').click(function ()
+            {
+                var keyWord = $('#formGroupId').val();
+                $('#sqlCustomer').load(url, { id: keyWord, fromRedis: false });
+            })
+        });
+
+</script>

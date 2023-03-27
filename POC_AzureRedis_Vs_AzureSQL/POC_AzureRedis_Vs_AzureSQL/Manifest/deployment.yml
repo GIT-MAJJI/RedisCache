@@ -1,0 +1,38 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+    name: azureredisvsazuresql-deployment
+    labels:
+        app: pocazureredisvsazuresql
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: pocazureredisvsazuresql
+    template: 
+        metadata:
+            labels:
+                app: pocazureredisvsazuresql
+        spec:
+            containers:
+            - name: k8s-demo
+              image: POCAzureRedisVsAzureSQLacr.azurecr.io/pocazureredisvsazuresql:latest
+              ports:
+              - containerPort: 80
+            imagePullSecrets:
+            - name: pocazureredisvsazuresqlacr
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: pocazureredisvsazuresql
+    labels:
+        app: pocazureredisvsazuresql
+spec:
+    ports:
+        - name: http-port
+          port: 80
+          targetPort: 80
+    selector: 
+        app: pocazureredisvsazuresql
+    type: LoadBalancer
